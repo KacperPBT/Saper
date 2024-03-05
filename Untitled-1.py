@@ -10,7 +10,7 @@ SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 1000
 
 #=============================================================================#
-#                                   zdjęcia                                   #
+#                                   *******                                   #
 draft = [[9, 1, 0, 0, 0, 1, 9, 1, 0],
          [1, 2, 1, 1, 0, 1, 1, 1, 0],
          [0, 2, 9, 2, 0, 0, 1, 1, 1],
@@ -20,57 +20,26 @@ draft = [[9, 1, 0, 0, 0, 1, 9, 1, 0],
          [0, 0, 0, 2, 9, 2, 0, 0, 0],
          [0, 0, 0, 2, 9, 2, 0, 1, 1],
          [0, 0, 0, 1, 1, 1, 0, 1, 9]]
-# [[0, 0, 0, 0, 1, 9, 1, 0, 0],[1, 1, 1, 0, 1, 1, 1, 0, 0],[1, 9, 1, 0, 1, 1, 1, 0, 0],[1, 1, 1, 0, 1, 9, 1, 0, 0],[0, 0, 0, 0, 1, 2, 2, 1, 0],[0, 1, 1, 2, 1, 2, 9, 1, 0],[1, 2, 9, 4, 9, 4, 2, 2, 0],[1, 9, 3, 9, 9, 3, 9, 1, 0],[1, 1, 2, 2, 2, 2, 1, 1, 0]]
+
+# [[0, 0, 0, 0, 1, 9, 1, 0, 0],
+#  [1, 1, 1, 0, 1, 1, 1, 0, 0],
+#  [1, 9, 1, 0, 1, 1, 1, 0, 0],
+#  [1, 1, 1, 0, 1, 9, 1, 0, 0],
+#  [0, 0, 0, 0, 1, 2, 2, 1, 0],
+#  [0, 1, 1, 2, 1, 2, 9, 1, 0],
+#  [1, 2, 9, 4, 9, 4, 2, 2, 0],
+#  [1, 9, 3, 9, 9, 3, 9, 1, 0],
+#  [1, 1, 2, 2, 2, 2, 1, 1, 0]]
+
 texture = {0:"0.png",1:"1.png",2:"2.png",3:"3.png",4:"4.png",5:"5.png",6:"6.png",7:"7.png",8:"8.png",9:"9.png"}
-
-#=============================================================================#
-#                                   Buttony                                   #
-
 #=============================================================================#
 #                                start set up                                 #
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('RPG-Life')
-#=============================================================================#
 lodare = maploader.Maploader(SCREEN, (900,900), draft, (50,50))
 lodare.set_texture(textures_paths = texture)
+#=============================================================================#
 
-def set_texture(loaded_textures : dict = None, textures_paths : dict = None) -> dict:
-    textures = {}
-    if loaded_textures and textures_paths:
-        raise TypeError("Function set_texture takes 1 argument but 2 were given")
-    elif not loaded_textures and not textures_paths:
-        raise TypeError("Function set_texture missing 1 required argument")
-    elif loaded_textures:
-        textures = loaded_textures
-    elif textures_paths:
-        for id, path in textures_paths.items():
-            textures[id] = pygame.image.load(path)
-    return textures
-
-def array_filler(cols : int, rows : int, filer) -> list:
-    array = []
-    for i in range(cols):
-        sub_array = []
-        for j in range(rows):
-            sub_array.append(filer)
-        array.append(sub_array)
-    return array 
-
-def calculate_location(draft : list, coordinate : tuple, size : tuple) -> list:
-    evry_coordinate = array_filler(9,9,0)
-    for i in range(0,len(draft)-1):
-        for j in range(0,len(draft[i])-1):
-            evry_coordinate[i][j] = (int(coordinate[0] + i * size[0]), int(coordinate[1] + i * size[1]))  
-    return evry_coordinate
-width  = 900 / len(draft[1])
-height = 900 / len(draft[0])
-size = (width, height)
-
-rect = set_texture(textures_paths = texture)[1].get_rect()
-rect.topleft = calculate_location(draft, (50,50),size)[0][0]
-
-
-# (self, loaded_textures : dict = None, textures_paths : dict = None)
 state = "start"
 run = True
 while run:
@@ -81,8 +50,5 @@ while run:
 
     lodare.draw_draft()
     pygame.display.update()
-
-
-# SCREEN.blit()
 
 pygame.quit()
