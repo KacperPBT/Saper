@@ -6,6 +6,8 @@
 
 - Ustawić "TEXTURE" na poprawne tekstury
 - Zrobić ekran startowy z wyborem poziomów
+- zegar
+- licznik pozostałych bomb
 
 ## Większe
 

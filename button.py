@@ -89,7 +89,7 @@ class Button():
         action = False
         pos = pygame.mouse.get_pos() # Pozycja myszki
         
-        if self.clicked_l == False:
+        if self.clicked_l == False and self.clicked_r == False:
             surface.blit(self.image1, (self.rect.x, self.rect.y))   
         
         if self.rect.collidepoint(pos) and not blocker:

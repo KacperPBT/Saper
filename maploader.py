@@ -71,8 +71,8 @@ class Maploader:
                     continue
                 self.buttons[i][j] = button.Button(self.evry_coordinate[i][j][0],
                                                    self.evry_coordinate[i][j][1],
+                                                   self.textures["hidden"],
                                                    self.textures[self.draft[i][j]],
-                                                   self.textures["left"],
                                                    self.textures["right"])
         self.buttons_created = True
         return True
@@ -85,7 +85,7 @@ class Maploader:
                     continue
                 square = self.buttons[i][j].draw_l_r(self.surface)
                 self.buttons[i][j].clicked_a = False
-                if self.clicked_draft[i][j] == False:
+                if square != False:
                     self.clicked_draft[i][j] = square
                
     def calculate_location(self) -> list[tuple]:
