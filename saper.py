@@ -52,3 +52,8 @@ class Saper_draft:
         field = self.rand_bomb_locat(field)
         self.field = self.bomb_suraunding(field)
         return self.field
+
+class Saper_game:
+    def __init__(self, boomb_draft : list) -> None:
+        self.boomb_draft = boomb_draft
+        

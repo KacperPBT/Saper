@@ -1,22 +1,30 @@
 #=============================================================================#
 #                                   library                                   #
 import pygame
+import button
 #=============================================================================#
 class Maploader:
-    def __init__(self, surface, display_size : tuple, draft : list, coordinate : tuple = (0,0)) -> None:
+    def __init__(self, surface, display_size : tuple, draft : list,
+                 coordinate : tuple = (0,0)) -> None:
         self.surface = surface
         self.display_size = display_size
         self.draft = draft
-        width  = display_size[0] / len(draft[1])
-        height = display_size[1] / len(draft[0])
+        width  = display_size[0] / len(draft[0])
+        height = display_size[1] / len(draft)
         self.size = (width, height)
         self.coordinate = coordinate
+        self.evry_coordinate = self.calculate_location()
+        self.clicked_draft = array_filler(len(self.draft),len(self.draft[0]), False)
+        self.buttons_created = False
 
     def set_draft(self, draft : list) -> None:
         self.draft = draft
-        width  = self.display_size[0] / len(draft[1])
-        height = self.display_size[1] / len(draft[0])
+        width  = self.display_size[0] / len(draft[0])
+        height = self.display_size[1] / len(draft)
         self.size = (width, height)
+        self.evry_coordinate = self.calculate_location()
+        self.clicked_draft = array_filler(len(self.draft),len(self.draft[0]), False)
+        self.buttons_created = False
 
     def set_texture(self, loaded_textures : dict = None, textures_paths : dict = None) -> dict:
         self.textures = {}
@@ -29,36 +37,70 @@ class Maploader:
         elif textures_paths:
             for id, path in textures_paths.items():
                 self.textures[id] = pygame.image.load(path)
-        '''for entry in self.draft.items():
-            trigger = False
-            for id in self.textures.items():
-                if entry == id:
-                    trigger = True
-                    break
-            if trigger == False:
-                raise ValueError("At least one texture is missing")'''
+        for i in range(len(self.draft)):
+            for j in range(len(self.draft[i])):
+                if self.draft[i][j] == None:
+                    continue
+                trigger = False
+                for id in self.textures.items():
+                    if self.draft[i][j] == id[0]:
+                        trigger = True
+                        break
+                if trigger == False:
+                    raise ValueError(f'At least one texture is missing "{self.draft[i][j]}"')
+        self.buttons_created = False
         return self.textures
 
     def draw_draft(self):
-        self.evry_coordinate = calculate_location(self.draft, self.coordinate, self.size)
         for i in range(len(self.draft)):
             for j in range(len(self.draft[i])):
+                if self.draft[i][j] == None:
+                    continue
                 rect = self.textures[self.draft[i][j]].get_rect()
-                rect.topleft = calculate_location(self.draft, self.coordinate, self.size)[i][j]
-                self.surface.blit(self.textures[self.draft[i][j]], (rect.x, rect.y))
+                rect.topleft = self.evry_coordinate[i][j]
+                self.surface.blit(self.textures[self.draft[i][j]], 
+                                  (rect.x, rect.y))
+    
+    def button_init(self) -> bool:
+        if self.buttons_created:
+            return True
+        self.buttons = array_filler(len(self.draft),len(self.draft[0]), 0)
+        for i in range(len(self.draft)):
+            for j in range(len(self.draft[i])):
+                if self.draft[i][j] == None:
+                    continue
+                self.buttons[i][j] = button.Button(self.evry_coordinate[i][j][0],
+                                                   self.evry_coordinate[i][j][1],
+                                                   self.textures[self.draft[i][j]],
+                                                   self.textures["left"],
+                                                   self.textures["right"])
+        self.buttons_created = True
+        return True
+
+    def draw_draft_b(self):
+        self.button_init()
+        for i in range(len(self.draft)):
+            for j in range(len(self.draft[i])):
+                if self.draft[i][j] == None:
+                    continue
+                square = self.buttons[i][j].draw_l_r(self.surface)
+                self.buttons[i][j].clicked_a = False
+                if self.clicked_draft[i][j] == False:
+                    self.clicked_draft[i][j] = square
+               
+    def calculate_location(self) -> list[tuple]:
+        evry_coordinate = array_filler(len(self.draft),len(self.draft[0]),0)
+        for i in range(0,len(self.draft)):
+            for j in range(0,len(self.draft[i])):
+                evry_coordinate[i][j] = (int(self.coordinate[0] + j * self.size[0]),
+                                         int(self.coordinate[1] + i * self.size[1]))  
+        return evry_coordinate
 
 def array_filler(cols : int, rows : int, filer) -> list:
     array = []
-    for i in range(cols):
+    for _ in range(cols):
         sub_array = []
-        for j in range(rows):
+        for _ in range(rows):
             sub_array.append(filer)
         array.append(sub_array)
-    return array               
-                
-def calculate_location(draft : list, coordinate : tuple, size : tuple) -> list[tuple]:
-    evry_coordinate = array_filler(9,9,0)
-    for i in range(0,len(draft)):
-        for j in range(0,len(draft[i])):
-            evry_coordinate[i][j] = (int(coordinate[0] + j * size[0]), int(coordinate[1] + i * size[1]))  
-    return evry_coordinate
+    return array   
