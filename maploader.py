@@ -73,7 +73,8 @@ class Maploader:
                                                    self.evry_coordinate[i][j][1],
                                                    self.textures["hidden"],
                                                    self.textures[self.draft[i][j]],
-                                                   self.textures["right"])
+                                                   self.textures["flag"],
+                                                   0.1)
         self.buttons_created = True
         return True
 

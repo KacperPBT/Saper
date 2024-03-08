@@ -13,14 +13,14 @@ LEVEL_MEDIUM = saper.Saper_draft(16,40)
 LEVEL_HARD = saper.Saper_draft((31,16),99)
 TEXTURE = {0:"image/0.png",1:"image/1.png",2:"image/2.png",3:"image/3.png",
            4:"image/4.png",5:"image/5.png",6:"image/6.png",7:"image/7.png",
-           8:"image/8.png",9:"image/9.png","right":"image/right.png",
+           8:"image/8.png",9:"image/9.png","flag":"image/flag.png",
            "hidden":"image/hidden.png"}
 #=============================================================================#
 #                                start set up                                 #
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Saper')
 draft = LEVEL_EAZY.make_draft()
-loader = maploader.Maploader(SCREEN, (900,900), draft, (50,50))
+loader = maploader.Maploader(SCREEN, (820,820), draft, (90,90))
 loader.set_texture(textures_paths = TEXTURE)
 
 #=============================================================================#
