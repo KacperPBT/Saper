@@ -16,7 +16,8 @@ class Maploader:
         self.evry_coordinate = self.calculate_location()
         self.clicked_draft = array_filler(len(self.draft),len(self.draft[0]), False)
         self.buttons_created = False
-
+    #=========================================================================#
+    #                              Set new draft                              #
     def set_draft(self, draft : list) -> None:
         self.draft = draft
         width  = self.display_size[0] / len(draft[0])
@@ -25,7 +26,8 @@ class Maploader:
         self.evry_coordinate = self.calculate_location()
         self.clicked_draft = array_filler(len(self.draft),len(self.draft[0]), False)
         self.buttons_created = False
-
+    #=========================================================================#
+    #                       Set textures for your draft                       #
     def set_texture(self, loaded_textures : dict = None, textures_paths : dict = None) -> dict:
         self.textures = {}
         if loaded_textures and textures_paths:
@@ -50,7 +52,8 @@ class Maploader:
                     raise ValueError(f'At least one texture is missing "{self.draft[i][j]}"')
         self.buttons_created = False
         return self.textures
-
+    #=========================================================================#
+    #                     Draw your draft as olny texture                     #
     def draw_draft(self):
         for i in range(len(self.draft)):
             for j in range(len(self.draft[i])):
@@ -60,7 +63,8 @@ class Maploader:
                 rect.topleft = self.evry_coordinate[i][j]
                 self.surface.blit(self.textures[self.draft[i][j]], 
                                   (rect.x, rect.y))
-    
+    #=========================================================================#
+    #            Initialize evry element of your draft as "buttons"           #
     def button_init(self) -> bool:
         if self.buttons_created:
             return True
@@ -74,10 +78,11 @@ class Maploader:
                                                    self.textures["hidden"],
                                                    self.textures[self.draft[i][j]],
                                                    self.textures["flag"],
-                                                   0.1)
+                                                   0.09765625)
         self.buttons_created = True
         return True
-
+    #=========================================================================#
+    #         Draw your draft as "buttons" (interact on mouse clicks)         #
     def draw_draft_b(self):
         self.button_init()
         for i in range(len(self.draft)):

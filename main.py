@@ -3,6 +3,7 @@
 import pygame
 import saper
 import maploader
+import time
 pygame.init()
 #=============================================================================#
 #                                  settings                                   #
@@ -20,7 +21,7 @@ TEXTURE = {0:"image/0.png",1:"image/1.png",2:"image/2.png",3:"image/3.png",
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Saper')
 draft = LEVEL_EAZY.make_draft()
-loader = maploader.Maploader(SCREEN, (820,820), draft, (90,90))
+loader = maploader.Maploader(SCREEN, (800,800), draft, (100,100))
 loader.set_texture(textures_paths = TEXTURE)
 
 #=============================================================================#
@@ -37,8 +38,7 @@ while run:
     #=========================================================================#
     #                               Start window                              #
     if state == "start":
-
-
+        state = "lvl eazy"
 
 
         if state == "lvl eazy": # to na końcu 
@@ -56,6 +56,11 @@ while run:
     #                                level eazy                               #
     if state == "lvl eazy": 
         loader.draw_draft_b()
+        for i in range (len(LEVEL_EAZY.bomb_cordinants)):
+            x, y = LEVEL_EAZY.bomb_cordinants[i]
+            if loader.clicked_draft[x][y] =="left":
+                print("boom")
+                state = "start"
     #=========================================================================#
     #                               level medium                              #
     if state == "lvl medium":
@@ -67,7 +72,7 @@ while run:
     #=========================================================================#
     #                               end of loop                               #
     pygame.display.update()
-print(loader.clicked_draft)
-
+print(LEVEL_EAZY.field)
+print(LEVEL_EAZY.bomb_cordinants)
 pygame.quit()
 #=============================================================================#
