@@ -73,8 +73,7 @@ class Maploader:
             for j in range(len(self.draft[i])):
                 if self.draft[i][j] == None:
                     continue
-                self.buttons[i][j] = button.Button(self.evry_coordinate[i][j][0],
-                                                   self.evry_coordinate[i][j][1],
+                self.buttons[i][j] = button.Button(self.evry_coordinate[i][j],
                                                    self.textures["hidden"],
                                                    self.textures[self.draft[i][j]],
                                                    self.textures["flag"],

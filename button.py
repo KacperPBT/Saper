@@ -6,9 +6,8 @@ import time
 #                                Ui like Button                               #
 class Button():
     Surface = pygame.surface.Surface
-    def __init__(self,
-                 x : int,
-                 y : int,
+    def __init__(self, 
+                 coordinates : tuple,
                  image1: Surface | str,
                  image2: Surface | str = None,
                  image3: Surface | str = None,
@@ -33,13 +32,13 @@ class Button():
         self.image3 = pygame.transform.scale(image3, (int(width * scale),
                                                       int(height * scale)))
         self.rect = self.image1.get_rect()
-        self.rect.topleft = (x, y)
+        self.rect.topleft = coordinates
         self.clicked_l = False
         self.clicked_r = False
         self.clicked_a = False
     #=========================================================================#
     #                       Affects on left mouse clicks                      #
-    def draw_l(self, surface, blocker : bool = False): 
+    def draw_l(self, surface, blocker : bool = False) -> bool: 
         action = False
         pos = pygame.mouse.get_pos() # Mouse position
         
@@ -84,7 +83,7 @@ class Button():
         return action
     #=========================================================================#
     #                       Affects on both mouse clicks                      #
-    def draw_l_r(self, surface, blocker :bool = False):
+    def draw_l_r(self, surface, blocker :bool = False) -> bool | str:
         action = False
         pos = pygame.mouse.get_pos() # Pozycja myszki
         
