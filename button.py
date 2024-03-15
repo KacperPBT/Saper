@@ -38,18 +38,18 @@ class Button():
         self.clicked_a = False
     #=========================================================================#
     #                       Affects on left mouse clicks                      #
-    def draw_l(self, surface, blocker : bool = False) -> bool: 
+    def draw_l(self, surface : Surface, blocker : bool = False) -> bool: 
         action = False
         pos = pygame.mouse.get_pos() # Mouse position
         
-        if self.clicked_l == False:
+        if not self.clicked_l:
             surface.blit(self.image1, (self.rect.x, self.rect.y))        
         
         if self.rect.collidepoint(pos) and not blocker:
             if pygame.mouse.get_pressed()[0] == 1 and not self.clicked_l:
                 self.clicked_l = True
         
-        if self.clicked_l == True:
+        if self.clicked_l:
             surface.blit(self.image2, (self.rect.x, self.rect.y))
             
         if pygame.mouse.get_pressed()[0] == 0 and self.clicked_l:
@@ -60,20 +60,19 @@ class Button():
         return action
     #=========================================================================#
     #                      Affects on right mouse clicks                      #
-    def draw_p(self, surface, blocker : bool = False) -> bool:
+    def draw_p(self, surface : Surface, blocker : bool = False) -> bool:
         action = False
-        pos = pygame.mouse.get_pos() # Pozycja myszki
+        pos = pygame.mouse.get_pos() # Mouse position
         
-        if self.clicked_r == False:
+        if not self.clicked_r:
             surface.blit(self.image1, (self.rect.x, self.rect.y))        
         
         if self.rect.collidepoint(pos) and not blocker:
             if pygame.mouse.get_pressed()[0] == 1 and not self.clicked_r:
                 self.clicked_r = True
         
-        if self.clicked_r == True:
+        if self.clicked_r:
             surface.blit(self.image2, (self.rect.x, self.rect.y))
-            
 
         if pygame.mouse.get_pressed()[0] == 0 and self.clicked_r:
             self.clicked_r = False
@@ -83,11 +82,11 @@ class Button():
         return action
     #=========================================================================#
     #                       Affects on both mouse clicks                      #
-    def draw_l_r(self, surface, blocker :bool = False) -> bool | str:
+    def draw_l_r(self, surface : Surface, blocker :bool = False) -> bool | str:
         action = False
-        pos = pygame.mouse.get_pos() # Pozycja myszki
+        pos = pygame.mouse.get_pos() # Mouse position
         
-        if self.clicked_l == False and self.clicked_r == False:
+        if not self.clicked_l and not self.clicked_r:
             surface.blit(self.image1, (self.rect.x, self.rect.y))   
         
         if self.rect.collidepoint(pos) and not blocker:
@@ -103,9 +102,9 @@ class Button():
                 self.clicked_l = False
                 action = 'right'
 
-        if self.clicked_l == True:
+        if self.clicked_l:
             surface.blit(self.image2, (self.rect.x, self.rect.y))
-        if self.clicked_r == True:
+        if self.clicked_r:
             surface.blit(self.image3, (self.rect.x, self.rect.y))
         
         return action   
